@@ -8,6 +8,15 @@
 - [x] Operators
 - [x] Control Flow Statements
 
+## Flutter
+
+- [ ] Widgets
+  - [ ] Stateless
+  - [ ] Inherited
+  - [ ] Stateful
+  - [ ] Styled
+  - [x] Material/Cupertino
+
 ## 🔗 References
 
 * [Flutter Roadmap](https://roadmap.sh/flutter)
