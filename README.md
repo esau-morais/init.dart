@@ -11,7 +11,7 @@
 ## Flutter
 
 - [ ] Widgets
-  - [ ] Stateless
+  - [x] Stateless
   - [ ] Inherited
   - [ ] Stateful
   - [ ] Styled
