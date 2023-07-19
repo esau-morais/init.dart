@@ -25,9 +25,6 @@ class MyApp extends StatelessWidget {
             Task('Learn React Native'),
             Task('Learn Go'),
           ]),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {},
-          ),
         ));
   }
 }
