@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'inherited.dart';
+
 class MyWidgets extends StatelessWidget {
   const MyWidgets({super.key});
 
@@ -14,6 +16,7 @@ class MyWidgets extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const Text('Stateless'),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,6 +37,19 @@ class MyWidgets extends StatelessWidget {
                     Container(color: Colors.pink, width: 100, height: 100),
                     Container(color: Colors.white, width: 100, height: 100)
                   ]),
+                  const Text('Inherited'),
+                  FrogColor(
+                    color: Colors.green,
+                    child: Builder(
+                      builder: (BuildContext innerContext) {
+                        return Text(
+                          'Hello Frog',
+                          style: TextStyle(
+                              color: FrogColor.of(innerContext).color),
+                        );
+                      },
+                    ),
+                  ),
                 ])));
   }
 }
