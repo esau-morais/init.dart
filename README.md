@@ -13,7 +13,7 @@
 - [ ] Widgets
   - [x] Stateless
   - [ ] Inherited
-  - [ ] Stateful
+  - [x] Stateful
   - [ ] Styled
   - [x] Material/Cupertino
 
