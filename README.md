@@ -10,11 +10,11 @@
 
 ## Flutter
 
-- [ ] Widgets
+- [x] Widgets
   - [x] Stateless
   - [x] Inherited
   - [x] Stateful
-  - [ ] Styled
+  - [x] Styled
   - [x] Material/Cupertino
 
 ## 🔗 References
