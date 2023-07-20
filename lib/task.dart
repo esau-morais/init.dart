@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class Task extends StatefulWidget {
   final String name;
-  const Task(this.name, {super.key});
+  final String src;
+  final int difficulty;
+  const Task(this.name, this.src, this.difficulty, {super.key});
 
   @override
   State<Task> createState() => _TaskState();
@@ -10,6 +12,7 @@ class Task extends StatefulWidget {
 
 class _TaskState extends State<Task> {
   int level = 0;
+  static const double defaultStarSize = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -17,28 +20,75 @@ class _TaskState extends State<Task> {
         padding: const EdgeInsets.all(8),
         child: Stack(children: [
           Container(
-            color: Colors.blue,
             height: 140,
+            decoration: BoxDecoration(
+                color: Colors.blue, borderRadius: BorderRadius.circular(4)),
           ),
           Column(
             children: [
               Container(
                 height: 100,
-                color: Colors.white,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(4)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
-                      color: Colors.black26,
+                      decoration: BoxDecoration(
+                          color: Colors.black26,
+                          borderRadius: BorderRadius.circular(4)),
                       width: 72,
                       height: 100,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(4),
+                        child: Image.network(
+                          widget.src,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
-                    SizedBox(
-                        width: 192,
-                        child: Text(widget.name,
-                            style: const TextStyle(
-                                fontSize: 24,
-                                overflow: TextOverflow.ellipsis))),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                            width: 192,
+                            child: Text(widget.name,
+                                style: const TextStyle(
+                                    fontSize: 24,
+                                    overflow: TextOverflow.ellipsis))),
+                        Row(
+                          children: [
+                            Icon(Icons.star,
+                                size: defaultStarSize,
+                                color: widget.difficulty >= 1
+                                    ? Colors.blue
+                                    : Colors.blue[100]),
+                            Icon(Icons.star,
+                                size: defaultStarSize,
+                                color: widget.difficulty >= 2
+                                    ? Colors.blue
+                                    : Colors.blue[100]),
+                            Icon(Icons.star,
+                                size: defaultStarSize,
+                                color: widget.difficulty >= 3
+                                    ? Colors.blue
+                                    : Colors.blue[100]),
+                            Icon(Icons.star,
+                                size: defaultStarSize,
+                                color: widget.difficulty >= 4
+                                    ? Colors.blue
+                                    : Colors.blue[100]),
+                            Icon(Icons.star,
+                                size: defaultStarSize,
+                                color: widget.difficulty >= 5
+                                    ? Colors.blue
+                                    : Colors.blue[100]),
+                          ],
+                        )
+                      ],
+                    ),
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
@@ -62,7 +112,10 @@ class _TaskState extends State<Task> {
                     child: SizedBox(
                       width: 200,
                       child: LinearProgressIndicator(
-                          color: Colors.white, value: level / 10),
+                          color: Colors.white,
+                          value: widget.difficulty > 0
+                              ? (level / widget.difficulty) / 10
+                              : 1),
                     ),
                   ),
                   Padding(
