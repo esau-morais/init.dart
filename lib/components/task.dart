@@ -98,9 +98,9 @@ class _TaskState extends State<Task> {
                       width: 200,
                       child: LinearProgressIndicator(
                           color: Colors.white,
-                          value: widget.difficulty > 0
-                              ? (level / widget.difficulty) / 10
-                              : 1),
+                          value: level == widget.difficulty
+                              ? 1
+                              : (level / widget.difficulty)),
                     ),
                   ),
                   Padding(
