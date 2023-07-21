@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'difficulty.dart';
+
 class Task extends StatefulWidget {
   final String name;
   final String src;
@@ -12,7 +14,6 @@ class Task extends StatefulWidget {
 
 class _TaskState extends State<Task> {
   int level = 0;
-  static const double defaultStarSize = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -58,41 +59,26 @@ class _TaskState extends State<Task> {
                                 style: const TextStyle(
                                     fontSize: 24,
                                     overflow: TextOverflow.ellipsis))),
-                        Row(
-                          children: [
-                            Icon(Icons.star,
-                                size: defaultStarSize,
-                                color: widget.difficulty >= 1
-                                    ? Colors.blue
-                                    : Colors.blue[100]),
-                            Icon(Icons.star,
-                                size: defaultStarSize,
-                                color: widget.difficulty >= 2
-                                    ? Colors.blue
-                                    : Colors.blue[100]),
-                            Icon(Icons.star,
-                                size: defaultStarSize,
-                                color: widget.difficulty >= 3
-                                    ? Colors.blue
-                                    : Colors.blue[100]),
-                            Icon(Icons.star,
-                                size: defaultStarSize,
-                                color: widget.difficulty >= 4
-                                    ? Colors.blue
-                                    : Colors.blue[100]),
-                            Icon(Icons.star,
-                                size: defaultStarSize,
-                                color: widget.difficulty >= 5
-                                    ? Colors.blue
-                                    : Colors.blue[100]),
-                          ],
+                        Difficulty(
+                          difficulty: widget.difficulty,
                         )
                       ],
                     ),
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            level++;
+                            if (level < widget.difficulty) {
+                              setState(() {
+                                level++;
+                              });
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      'You have reached the maximum mastery level!'),
+                                ),
+                              );
+                            }
                           });
                         },
                         child: const SizedBox(
@@ -107,7 +93,6 @@ class _TaskState extends State<Task> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    // TODO: match Figma design
                     padding: const EdgeInsets.all(8),
                     child: SizedBox(
                       width: 200,
@@ -119,7 +104,6 @@ class _TaskState extends State<Task> {
                     ),
                   ),
                   Padding(
-                    // TODO: match Figma design
                     padding: const EdgeInsets.all(12),
                     child: Text(
                       'Level: $level',
