@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../data/inherited_task.dart';
+
 class NewTask extends StatefulWidget {
-  const NewTask({super.key});
+  final BuildContext taskContext;
+  const NewTask({required this.taskContext, super.key});
 
   @override
   State<NewTask> createState() => _NewTaskState();
@@ -99,20 +102,28 @@ class _NewTaskState extends State<NewTask> {
                       borderRadius: BorderRadius.circular(10),
                       child: Image.network(
                         imageController.text,
-                        fit: BoxFit.cover,
                         errorBuilder:
                             (BuildContext ctx, Object err, StackTrace? stack) {
                           return Image.asset(
                             'assets/fallback.png',
-                            fit: BoxFit.cover,
                           );
                         },
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {}
+                        if (_formKey.currentState!.validate()) {
+                          InheritedTask.of(widget.taskContext).newTask(
+                              nameController.text,
+                              imageController.text,
+                              int.parse(difficultyController.text));
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Creating new task')));
+                          Navigator.pop(context);
+                        }
                       },
                       child: const Text('Add'))
                 ]),
