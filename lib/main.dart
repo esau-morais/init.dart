@@ -15,8 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter',
         theme: ThemeData(primarySwatch: Colors.blue),
-        home: const InheritedTask(
-          child: Home(),
+        home: InheritedTask(
+          child: const Home(),
         ));
   }
 }
