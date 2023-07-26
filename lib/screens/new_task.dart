@@ -17,12 +17,21 @@ class _NewTaskState extends State<NewTask> {
 
   final _formKey = GlobalKey<FormState>();
 
+  bool valueValidator(String? value) =>
+      value != null && value.isEmpty ? true : false;
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Scaffold(
         appBar: AppBar(
+          leading: ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Icon(Icons.arrow_back),
+          ),
           title: const Text('New Task'),
         ),
         body: Center(
@@ -46,7 +55,7 @@ class _NewTaskState extends State<NewTask> {
                           filled: true),
                       controller: nameController,
                       validator: (value) {
-                        if (value != null && value.isEmpty) {
+                        if (valueValidator(value)) {
                           return 'Name is required';
                         }
                         return null;
@@ -86,7 +95,9 @@ class _NewTaskState extends State<NewTask> {
                         setState(() {});
                       },
                       validator: (value) {
-                        if (value!.isEmpty) return 'Image must be an URL';
+                        if (valueValidator(value)) {
+                          return 'Image must be an URL';
+                        }
                         return null;
                       },
                       keyboardType: TextInputType.url,
