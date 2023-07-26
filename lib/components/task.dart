@@ -6,14 +6,19 @@ class Task extends StatefulWidget {
   final String name;
   final String src;
   final int difficulty;
-  const Task(this.name, this.src, this.difficulty, {super.key});
+
+  Task(this.name, this.src, this.difficulty, {super.key});
+
+  int level = 0;
 
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-  int level = 0;
+  bool assetOrNetwork() {
+    return widget.src.contains('http') ? false : true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +48,15 @@ class _TaskState extends State<Task> {
                       height: 100,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        child: Image.network(
-                          widget.src,
-                          fit: BoxFit.cover,
-                        ),
+                        child: widget.src.contains('http')
+                            ? Image.asset(
+                                widget.src,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.network(
+                                widget.src,
+                                fit: BoxFit.cover,
+                              ),
                       ),
                     ),
                     Column(
@@ -67,9 +77,9 @@ class _TaskState extends State<Task> {
                     ElevatedButton(
                         onPressed: () {
                           setState(() {
-                            if (level < widget.difficulty) {
+                            if (widget.level < widget.difficulty) {
                               setState(() {
-                                level++;
+                                widget.level++;
                               });
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -98,15 +108,15 @@ class _TaskState extends State<Task> {
                       width: 200,
                       child: LinearProgressIndicator(
                           color: Colors.white,
-                          value: level == widget.difficulty
+                          value: widget.level == widget.difficulty
                               ? 1
-                              : (level / widget.difficulty)),
+                              : (widget.level / widget.difficulty)),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(12),
                     child: Text(
-                      'Level: $level',
+                      'Level: ${widget.level}',
                       style: const TextStyle(
                           fontSize: 16, color: Color(0xFFF2F2F2)),
                     ),
