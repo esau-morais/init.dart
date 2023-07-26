@@ -17,14 +17,16 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text('Tasks'),
       ),
-      body: ListView(children: InheritedTask.of(context).taskList),
+      body: ListView(
+          padding: const EdgeInsets.only(top: 8, bottom: 64),
+          children: InheritedTask.of(context).taskList),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (taskContext) => NewTask(
-                        taskContext: taskContext,
+                  builder: (BuildContext newContext) => NewTask(
+                        taskContext: context,
                       )));
         },
         child: const Icon(Icons.add),
