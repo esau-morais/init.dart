@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../data/inherited_task.dart';
+import '../data/task.dart';
 import 'new_task.dart';
 
 class Home extends StatefulWidget {
@@ -17,9 +17,23 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text('Tasks'),
       ),
-      body: ListView(
-          padding: const EdgeInsets.only(top: 8, bottom: 64),
-          children: InheritedTask.of(context).taskList),
+      body: const Padding(
+        padding: EdgeInsets.only(top: 8, bottom: 64),
+        // TODO: list all tasks and persist state
+        // child: FutureBuilder<List<Task>>(
+        //   future: const Task().findAllTasks(),
+        //   builder: (context, snapshot) {
+        //     List<Task>? tasks = snapshot.data;
+        //     return ListView.builder(
+        //       itemCount: tasks.length,
+        //       itemBuilder: (context, index) {
+        //         final Task task = items[index];
+        //         return task;
+        //       },
+        //     );
+        //   },
+        // ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
