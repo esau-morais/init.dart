@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../data/inherited_task.dart';
+import '../components/task.dart';
+import '../data/task.dart';
 
 class NewTask extends StatefulWidget {
   final BuildContext taskContext;
@@ -126,10 +126,11 @@ class _NewTaskState extends State<NewTask> {
                   ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          InheritedTask.of(widget.taskContext).newTask(
-                              nameController.text,
-                              imageController.text,
-                              int.parse(difficultyController.text));
+                          TaskModel().insertTask(Task(
+                            name: nameController.text,
+                            src: imageController.text,
+                            difficulty: int.parse(difficultyController.text),
+                          ));
                           ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text('Creating new task')));

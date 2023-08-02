@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../components/task.dart';
 import '../data/task.dart';
 import 'new_task.dart';
 
@@ -17,22 +18,58 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: const Text('Tasks'),
       ),
-      body: const Padding(
-        padding: EdgeInsets.only(top: 8, bottom: 64),
-        // TODO: list all tasks and persist state
-        // child: FutureBuilder<List<Task>>(
-        //   future: const Task().findAllTasks(),
-        //   builder: (context, snapshot) {
-        //     List<Task>? tasks = snapshot.data;
-        //     return ListView.builder(
-        //       itemCount: tasks.length,
-        //       itemBuilder: (context, index) {
-        //         final Task task = items[index];
-        //         return task;
-        //       },
-        //     );
-        //   },
-        // ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 8, bottom: 64),
+        child: FutureBuilder<List<Task>>(
+          future: TaskModel().findAllTasks(),
+          builder: (context, snapshot) {
+            List<Task>? tasks = snapshot.data;
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                return const Center(
+                  child: Column(children: [
+                    CircularProgressIndicator(),
+                    Text('Loading...')
+                  ]),
+                );
+              case ConnectionState.waiting:
+                return const Center(
+                  child: Column(children: [
+                    CircularProgressIndicator(),
+                    Text('Loading...')
+                  ]),
+                );
+              case ConnectionState.active:
+                return const Center(
+                  child: Column(children: [
+                    CircularProgressIndicator(),
+                    Text('Loading...')
+                  ]),
+                );
+              case ConnectionState.done:
+                if (snapshot.hasData && tasks != null) {
+                  if (tasks.isNotEmpty) {
+                    return ListView.builder(
+                      itemCount: tasks.length,
+                      itemBuilder: (context, index) {
+                        final Task task = tasks[index];
+                        return task;
+                      },
+                    );
+                  }
+                  return const Center(
+                    child: Column(
+                      children: [
+                        Icon(Icons.error_outline, size: 48),
+                        Text('No tasks found', style: TextStyle(fontSize: 16))
+                      ],
+                    ),
+                  );
+                }
+                return const Text('Error on loading tasks');
+            }
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -41,7 +78,9 @@ class _HomeState extends State<Home> {
               MaterialPageRoute(
                   builder: (BuildContext newContext) => NewTask(
                         taskContext: context,
-                      )));
+                      ))).then((value) => setState(
+                () {},
+              ));
         },
         child: const Icon(Icons.add),
       ),

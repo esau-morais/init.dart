@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
+import '../data/task.dart';
 import 'difficulty.dart';
 
 class Task extends StatefulWidget {
+  final int? id;
   final String name;
   final String src;
   final int difficulty;
 
-  Task(this.name, this.src, this.difficulty, {super.key});
+  Task(
+      {super.key,
+      this.id,
+      required this.name,
+      required this.src,
+      required this.difficulty});
 
   int level = 0;
 
@@ -75,6 +82,9 @@ class _TaskState extends State<Task> {
                       ],
                     ),
                     ElevatedButton(
+                        onLongPress: () {
+                          TaskModel().deleteTask(widget.id);
+                        },
                         onPressed: () {
                           setState(() {
                             if (widget.level < widget.difficulty) {
