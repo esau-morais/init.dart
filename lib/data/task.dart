@@ -1,33 +1,26 @@
 import 'package:sqflite/sqflite.dart';
-
+import '../components/task.dart';
 import 'db.dart';
 
-class Task {
+class TaskModel {
   static const String sqlCommand = 'CREATE TABLE $table('
-      '$id INTEGER PRIMARY KEY'
+      '$id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, '
       '$name TEXT, '
       '$difficulty INTEGER, '
       '$image TEXT)';
 
   static const String table = 'tasks';
-  static const id = 'id';
+  static const String id = 'id';
   static const String name = 'name';
   static const String difficulty = 'difficulty';
   static const String image = 'image';
 
-  const Task({
-    id,
-    name,
-    difficulty,
-    image,
-  });
-
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap(Task task) {
     return {
-      'id': id,
-      'name': name,
-      'difficulty': difficulty,
-      'image': image,
+      id: task.id,
+      name: task.name,
+      difficulty: task.difficulty,
+      image: task.src,
     };
   }
 
@@ -41,7 +34,7 @@ class Task {
 
     await db.insert(
       table,
-      task.toMap(),
+      toMap(task),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
@@ -51,9 +44,9 @@ class Task {
 
     await db.update(
       table,
-      task.toMap(),
+      toMap(task),
       where: 'id = ?',
-      whereArgs: [id],
+      whereArgs: [task.id],
     );
   }
 
@@ -63,12 +56,13 @@ class Task {
     final List<Map<String, dynamic>> maps = await db.query(table);
 
     return List.generate(maps.length, (i) {
-      return Task(
-        id: maps[i]['id'],
+      final Task task = Task(
+        id: maps[i][id],
         name: maps[i][name],
         difficulty: maps[i][difficulty],
-        image: maps[i][image],
+        src: maps[i][image],
       );
+      return task;
     });
   }
 
@@ -80,15 +74,15 @@ class Task {
 
     return List.generate(maps.length, (i) {
       return Task(
-        id: maps[i]['id'],
+        id: maps[i][id],
         name: maps[i][name],
         difficulty: maps[i][difficulty],
-        image: maps[i][image],
+        src: maps[i][image],
       );
     });
   }
 
-  Future<void> deleteTask(int id) async {
+  Future<void> deleteTask(int? id) async {
     final db = await initDb();
 
     await db.delete(

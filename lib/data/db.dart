@@ -7,9 +7,9 @@ Future<Database> initDb() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final database =
-      openDatabase(join(await getDatabasesPath(), '${Task.table}.db'),
+      openDatabase(join(await getDatabasesPath(), '${TaskModel.table}.db'),
           onCreate: (db, version) {
-    return db.execute(Task.sqlCommand);
+    return db.execute(TaskModel.sqlCommand);
   }, version: 1);
   final db = await database;
 
