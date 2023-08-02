@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:init_dart/data/inherited_task.dart';
 
 import 'screens/home.dart';
 
@@ -13,10 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter',
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: InheritedTask(
-          child: const Home(),
-        ));
+      title: 'Flutter',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const Home(),
+    );
   }
 }
