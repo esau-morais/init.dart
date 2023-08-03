@@ -27,6 +27,30 @@ class _TaskState extends State<Task> {
     return widget.src.contains('http') ? false : true;
   }
 
+  showDeleteTaskConfirmationDialog(BuildContext ctx) {
+    showDialog(
+        context: ctx,
+        builder: (newCtx) {
+          return AlertDialog(
+            title: const Text("Delete task"),
+            content: const Text("Are you sure you want to delete this task?"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                  },
+                  child: const Text("Cancel")),
+              TextButton(
+                  onPressed: () {
+                    TaskModel().deleteTask(widget.id);
+                    Navigator.pop(ctx);
+                  },
+                  child: const Text("Continue"))
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -82,9 +106,8 @@ class _TaskState extends State<Task> {
                       ],
                     ),
                     ElevatedButton(
-                        onLongPress: () {
-                          TaskModel().deleteTask(widget.id);
-                        },
+                        onLongPress: () =>
+                            showDeleteTaskConfirmationDialog(context),
                         onPressed: () {
                           setState(() {
                             if (widget.level < widget.difficulty) {
