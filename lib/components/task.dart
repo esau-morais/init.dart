@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:init_dart/components/delete_task_dialog.dart';
 
-import '../data/task.dart';
 import 'difficulty.dart';
 
 class Task extends StatefulWidget {
@@ -25,30 +25,6 @@ class Task extends StatefulWidget {
 class _TaskState extends State<Task> {
   bool assetOrNetwork() {
     return widget.src.contains('http') ? false : true;
-  }
-
-  showDeleteTaskConfirmationDialog(BuildContext ctx) {
-    showDialog(
-        context: ctx,
-        builder: (newCtx) {
-          return AlertDialog(
-            title: const Text("Delete task"),
-            content: const Text("Are you sure you want to delete this task?"),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                  },
-                  child: const Text("Cancel")),
-              TextButton(
-                  onPressed: () {
-                    TaskModel().deleteTask(widget.id);
-                    Navigator.pop(ctx);
-                  },
-                  child: const Text("Continue"))
-            ],
-          );
-        });
   }
 
   @override
@@ -79,15 +55,10 @@ class _TaskState extends State<Task> {
                       height: 100,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(4),
-                        child: widget.src.contains('http')
-                            ? Image.asset(
-                                widget.src,
-                                fit: BoxFit.cover,
-                              )
-                            : Image.network(
-                                widget.src,
-                                fit: BoxFit.cover,
-                              ),
+                        child: Image.network(
+                          widget.src,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                     Column(
@@ -96,10 +67,14 @@ class _TaskState extends State<Task> {
                       children: [
                         SizedBox(
                             width: 192,
-                            child: Text(widget.name,
+                            child: DefaultTextStyle(
                                 style: const TextStyle(
+                                    color: Colors.black,
                                     fontSize: 24,
-                                    overflow: TextOverflow.ellipsis))),
+                                    overflow: TextOverflow.ellipsis),
+                                child: Text(
+                                  widget.name,
+                                ))),
                         Difficulty(
                           difficulty: widget.difficulty,
                         )
@@ -107,7 +82,8 @@ class _TaskState extends State<Task> {
                     ),
                     ElevatedButton(
                         onLongPress: () =>
-                            showDeleteTaskConfirmationDialog(context),
+                            DeleteTaskDialog.showDeleteTaskConfirmationDialog(
+                                context, widget.id!),
                         onPressed: () {
                           setState(() {
                             if (widget.level < widget.difficulty) {
@@ -148,10 +124,12 @@ class _TaskState extends State<Task> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(12),
-                    child: Text(
-                      'Level: ${widget.level}',
+                    child: DefaultTextStyle(
                       style: const TextStyle(
                           fontSize: 16, color: Color(0xFFF2F2F2)),
+                      child: Text(
+                        'Level: ${widget.level}',
+                      ),
                     ),
                   )
                 ],

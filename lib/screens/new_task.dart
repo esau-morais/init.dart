@@ -116,10 +116,10 @@ class _NewTaskState extends State<NewTask> {
                         errorBuilder:
                             (BuildContext ctx, Object err, StackTrace? stack) {
                           return Image.asset(
+                            fit: BoxFit.cover,
                             'assets/fallback.png',
                           );
                         },
-                        fit: BoxFit.cover,
                       ),
                     ),
                   ),

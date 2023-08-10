@@ -58,12 +58,9 @@ class _HomeState extends State<Home> {
                     );
                   }
                   return const Center(
-                    child: Column(
-                      children: [
-                        Icon(Icons.error_outline, size: 48),
-                        Text('No tasks found', style: TextStyle(fontSize: 16))
-                      ],
-                    ),
+                    child: Text('No tasks found',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600)),
                   );
                 }
                 return const Text('Error on loading tasks');
