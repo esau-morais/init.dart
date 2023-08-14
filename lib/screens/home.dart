@@ -75,6 +75,7 @@ class _HomeState extends State<Home> {
               MaterialPageRoute(
                   builder: (BuildContext newContext) => NewTask(
                         taskContext: context,
+                        // add id so it fills the textforminput's
                       ))).then((value) => setState(
                 () {},
               ));

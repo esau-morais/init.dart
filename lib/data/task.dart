@@ -66,6 +66,28 @@ class TaskModel {
     });
   }
 
+  Future<Task?> findTaskById(int? id) async {
+    final db = await initDb();
+
+    final List<Map<String, dynamic>> maps =
+        await db.query(table, where: '$id = ?', whereArgs: [id]);
+
+    if (maps.isEmpty) {
+      return null;
+    }
+
+    final Map<String, dynamic> taskMap = maps.first;
+
+    final Task task = Task(
+      id: taskMap['id'],
+      name: taskMap[name],
+      difficulty: taskMap[difficulty],
+      src: taskMap[image],
+    );
+
+    return task;
+  }
+
   Future<List<Task>> findTasksByName(String? name) async {
     final db = await initDb();
 
