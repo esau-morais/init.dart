@@ -53,7 +53,22 @@ class _HomeState extends State<Home> {
                       itemCount: tasks.length,
                       itemBuilder: (context, index) {
                         final Task task = tasks[index];
-                        return task;
+                        return Dismissible(
+                          key: UniqueKey(),
+                          background: Container(
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.only(right: 20.0),
+                            child:
+                                const Icon(Icons.delete, color: Colors.white),
+                          ),
+                          direction: DismissDirection.endToStart,
+                          onDismissed: (direction) {
+                            TaskModel().deleteTask(task.id as int);
+                            setState(() {});
+                          },
+                          child: task,
+                        );
                       },
                     );
                   }
