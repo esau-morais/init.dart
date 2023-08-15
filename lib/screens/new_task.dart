@@ -36,6 +36,7 @@ class _NewTaskState extends State<NewTask> {
       nameController.text = task.name;
       difficultyController.text = task.difficulty.toString();
       imageController.text = task.src.toString();
+      setState(() {});
     }
   }
 
@@ -74,7 +75,6 @@ class _NewTaskState extends State<NewTask> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: Image.network(
-                          // FIXME: image not showing
                           imageController.text,
                           errorBuilder: (BuildContext ctx, Object err,
                               StackTrace? stack) {
