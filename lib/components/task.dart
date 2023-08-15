@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:init_dart/components/delete_task_dialog.dart';
 import 'package:init_dart/screens/new_task.dart';
 
 import 'difficulty.dart';
@@ -63,6 +62,22 @@ class _TaskState extends State<Task> {
                           child: Image.network(
                             widget.src,
                             fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -86,9 +101,6 @@ class _TaskState extends State<Task> {
                         ],
                       ),
                       ElevatedButton(
-                          onLongPress: () =>
-                              DeleteTaskDialog.showDeleteTaskConfirmationDialog(
-                                  context, widget.id!),
                           onPressed: () {
                             setState(() {
                               if (widget.level < widget.difficulty) {
