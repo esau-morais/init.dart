@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import '../components/task.dart';
 import '../data/task.dart';
 
@@ -44,10 +45,10 @@ class _NewTaskState extends State<NewTask> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Scaffold(
-        appBar: AppBar(
-          leading: ElevatedButton(
-            onPressed: () {
+      child: PlatformScaffold(
+        appBar: PlatformAppBar(
+          leading: GestureDetector(
+            onTap: () {
               Navigator.pop(context);
             },
             child: const Icon(Icons.arrow_back),
@@ -56,11 +57,9 @@ class _NewTaskState extends State<NewTask> {
         ),
         body: Center(
             child: SingleChildScrollView(
-          child: Container(
+          child: SizedBox(
             width: 375,
             height: 650,
-            decoration: BoxDecoration(
-                color: Colors.black12, borderRadius: BorderRadius.circular(16)),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -87,26 +86,54 @@ class _NewTaskState extends State<NewTask> {
                         ),
                       ),
                     ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          hintText: 'Name',
+                    PlatformTextFormField(
+                      material: (context, platform) =>
+                          MaterialTextFormFieldData(
+                        decoration: const InputDecoration(
+                          hintText: 'Title',
                           border: OutlineInputBorder(),
-                          fillColor: Colors.white60,
-                          filled: true),
+                        ),
+                      ),
+                      cupertino: (context, platform) =>
+                          CupertinoTextFormFieldData(
+                        placeholder: 'Title',
+                        // give border bottom
+                        decoration: const BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.black38,
+                              width: 1,
+                            ),
+                          ),
+                        ),
+                      ),
                       controller: nameController,
                       validator: (value) {
                         if (valueValidator(value)) {
-                          return 'Name is required';
+                          return 'Title is required';
                         }
                         return null;
                       },
                     ),
-                    TextFormField(
-                      decoration: const InputDecoration(
+                    PlatformTextFormField(
+                      material: (context, platform) =>
+                          MaterialTextFormFieldData(
+                        decoration: const InputDecoration(
                           hintText: 'Difficulty',
                           border: OutlineInputBorder(),
-                          fillColor: Colors.white60,
-                          filled: true),
+                        ),
+                      ),
+                      cupertino: (context, platform) =>
+                          CupertinoTextFormFieldData(
+                              placeholder: 'Difficulty',
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.black38,
+                                    width: 1,
+                                  ),
+                                ),
+                              )),
                       controller: difficultyController,
                       validator: (value) {
                         if (value!.isEmpty ||
@@ -118,12 +145,25 @@ class _NewTaskState extends State<NewTask> {
                       },
                       keyboardType: TextInputType.number,
                     ),
-                    TextFormField(
-                      decoration: const InputDecoration(
+                    PlatformTextFormField(
+                      material: (context, platform) =>
+                          MaterialTextFormFieldData(
+                        decoration: const InputDecoration(
                           hintText: 'Image',
                           border: OutlineInputBorder(),
-                          fillColor: Colors.white60,
-                          filled: true),
+                        ),
+                      ),
+                      cupertino: (context, platform) =>
+                          CupertinoTextFormFieldData(
+                              placeholder: 'Image',
+                              decoration: const BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                    color: Colors.black38,
+                                    width: 1,
+                                  ),
+                                ),
+                              )),
                       controller: imageController,
                       onChanged: (text) {
                         setState(() {});
@@ -136,7 +176,7 @@ class _NewTaskState extends State<NewTask> {
                       },
                       keyboardType: TextInputType.url,
                     ),
-                    ElevatedButton(
+                    PlatformElevatedButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             final task = Task(
@@ -150,9 +190,9 @@ class _NewTaskState extends State<NewTask> {
                             } else {
                               TaskModel().insertTask(task);
                             }
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Creating new task')));
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //     const SnackBar(
+                            //         content: Text('Creating new task')));
                             Navigator.pop(context);
                           }
                         },
